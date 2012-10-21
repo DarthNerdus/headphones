@@ -376,7 +376,7 @@ def moveFiles(albumpath, release, tracks):
             
     
     folder = helpers.replace_all(headphones.FOLDER_FORMAT, values)
-    folder = folder.replace('./', '_/').replace(':','_').replace('?','_').replace('/.','/_')
+    folder = folder.replace('./', '_/').replace(':','_').replace('?','_').replace('/.','/_').replace('<','_').replace('>','_')
     
     if folder.endswith('.'):
         folder = folder.replace(folder[len(folder)-1], '_')
@@ -603,6 +603,7 @@ def embedLyrics(downloaded_track_list):
             f = MediaFile(downloaded_track)
         except:
             logger.error('Could not read %s. Not checking lyrics' % downloaded_track.decode(headphones.SYS_ENCODING, 'replace'))
+            continue
             
         if f.albumartist and f.title:
             metalyrics = lyrics.getLyrics(f.albumartist, f.title)
@@ -613,7 +614,7 @@ def embedLyrics(downloaded_track_list):
             metalyrics = None
             
         if lyrics:
-            logger.debug('Adding lyrics to: %s' % downloaded_track)
+            logger.debug('Adding lyrics to: %s' % downloaded_track.decode(headphones.SYS_ENCODING, 'replace'))
             f.lyrics = metalyrics
             f.save()
 
@@ -676,7 +677,7 @@ def renameFiles(albumpath, downloaded_track_list, release):
             logger.debug("Renaming for: " + downloaded_track.decode(headphones.SYS_ENCODING) + " is not neccessary")
             continue
 
-        logger.debug('Renaming %s ---> %s' % (downloaded_track.decode(headphones.SYS_ENCODING), new_file_name.decode(headphones.SYS_ENCODING)))
+        logger.debug('Renaming %s ---> %s' % (downloaded_track.decode(headphones.SYS_ENCODING,'replace'), new_file_name.decode(headphones.SYS_ENCODING,'replace')))
         try:
             os.rename(downloaded_track, new_file)
         except Exception, e:
