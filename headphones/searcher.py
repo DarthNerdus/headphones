@@ -1354,10 +1354,7 @@ def searchTorrent(albumid=None, new=False, losslessOnly=False):
 			torrent_file.close()
 			#Open the fresh torrent file again so we can extract the proper torrent name
 			#Used later in post-processing.
-			#Pause for 10 seconds to allow Transmission time to auto-add
-			time.sleep(10)
-			##Adjust file-check for .added extension
-			torrent_file = open(download_path + '.added', 'rb')
+			torrent_file = open(download_path, 'rb')
                         torrent_info = bencode.bdecode(torrent_file.read())
                         torrent_file.close()
                         torrent_folder_name = torrent_info['info'].get('name','').decode('utf-8')
